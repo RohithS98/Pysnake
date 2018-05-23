@@ -3,21 +3,10 @@ from random import randint
 
 pygame.init()
 screen = pygame.display.set_mode((600, 600))
-done = False
-is_blue = True
-x = 300
-y = 300
-fx=100
-fy=100
-factive=True
-size=10
-xv=1
-yv=0
+done, is_blue, x, y, fx, fy, factive, size, xv, yv, le, i = False, True, 300, 300, 100, 100, True, 10, 1, 0, 3, 0
 posq=[(x,y)]
-le=3
-i=0
 clock = pygame.time.Clock()
-grow=False
+grow, moved = False, False
 
 def spawnfood(posq):
     while True:
@@ -56,22 +45,14 @@ while not done:
                         grow=not(grow)
         
         pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP] or pressed[pygame.K_w]:
-            if yv!=1:
-                yv=-1
-                xv=0
-        if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
-            if yv!=-1:
-                yv=1
-                xv=0
-        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
-            if xv!=1:
-                yv=0
-                xv=-1
-        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
-            if xv!=-1:
-                yv=0
-                xv=1
+        if (pressed[pygame.K_UP] or pressed[pygame.K_w]) and yv!=1:
+            yv, xv = -1, 0
+        elif (pressed[pygame.K_DOWN] or pressed[pygame.K_s]) and yv!=-1:
+            yv, xv = 1, 0
+        elif (pressed[pygame.K_LEFT] or pressed[pygame.K_a]) and xv!=1:
+            yv, xv = 0, -1
+        elif (pressed[pygame.K_RIGHT] or pressed[pygame.K_d]) and xv!=-1:
+            yv, xv = 0, 1
         x+=(xv*size)
         y+=(yv*size)
         if x>=600:
@@ -90,8 +71,7 @@ while not done:
             factive=True
         if (x,y)==(fx,fy):
             factive=False
-            fx=-100
-            fy=-100
+            fx, fy =-100, -100
             le+=1
 
         posq,le=checkhit(posq,le)
@@ -105,9 +85,6 @@ while not done:
             if grow:
                 le+=1
             i=0
-        
-
-      #  pygame.draw.rect(screen, color, pygame.Rect(x, y, 60, 60))
         
         pygame.display.flip()
         clock.tick(20)
