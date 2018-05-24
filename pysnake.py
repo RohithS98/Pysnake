@@ -6,7 +6,7 @@ screen = pygame.display.set_mode((600, 600))
 done, is_blue, x, y, fx, fy, factive, size, xv, yv, le, i = False, True, 300, 300, 100, 100, True, 10, 1, 0, 3, 0
 posq=[(x,y)]
 clock = pygame.time.Clock()
-grow, moved = False, False
+grow = False
 
 def spawnfood(posq):
     while True:
@@ -34,7 +34,6 @@ def checkhit(posq,le):
         posq=posq[temp+2:]
         le=len(posq)
     return (posq,le)
-
 
 while not done:
         for event in pygame.event.get():
